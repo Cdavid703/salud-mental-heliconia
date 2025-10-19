@@ -1,0 +1,448 @@
+<div id="holistica-app" style="max-width:960px;margin:auto;font-family:Inter, system-ui, -apple-system, Arial, sans-serif; color:#0f172a; line-height:1.5;">
+  <style>
+    #holistica-app *{box-sizing:border-box}
+    #holistica-app .hero{background:linear-gradient(135deg,#e0f2fe 0,#fef9c3 100%);border-radius:18px;padding:22px 20px;margin:14px 0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    #holistica-app h1{margin:0 0 6px 0;font-size:28px}
+    #holistica-app .muted{color:#475569}
+    #holistica-app .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    #holistica-app .tab{border:1px solid #e2e8f0;border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer;font-weight:600}
+    #holistica-app .tab.active{background:#2563eb;color:#fff;border-color:#2563eb}
+    #holistica-app .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    #holistica-app .grid{display:grid;gap:12px}
+    @media(min-width:860px){#holistica-app .cols-2{grid-template-columns:1fr 1fr}}
+    #holistica-app .btn{background:#2563eb;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    #holistica-app .btn.secondary{background:#f1f5f9;color:#0f172a}
+    #holistica-app .btn.ghost{background:transparent;border:1px solid #cbd5e1;color:#0f172a}
+    #holistica-app .range{width:100%}
+    #holistica-app .kpi{display:flex;align-items:center;gap:10px}
+    #holistica-app .bubble{background:#f1f5f9;border-radius:12px;padding:8px 10px}
+    #holistica-app .meter{height:10px;background:#eef2ff;border-radius:999px;overflow:hidden}
+    #holistica-app .meter>div{height:10px;background:#22c55e}
+    #holistica-app .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}
+    #holistica-app .pill.ok{background:#dcfce7;color:#166534}
+    #holistica-app .pill.mid{background:#fef3c7;color:#92400e}
+    #holistica-app .pill.low{background:#fee2e2;color:#991b1b}
+    #holistica-app details{background:#f8fafc;border:1px dashed #e2e8f0;border-radius:12px;padding:8px 12px}
+    #holistica-app summary{cursor:pointer;font-weight:700}
+    /* Breathing circle */
+    #holistica-app .breath-wrap{display:flex;justify-content:center;align-items:center;height:220px}
+    #holistica-app .circle{width:140px;height:140px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #a7f3d0, #34d399);box-shadow:0 10px 30px rgba(16,185,129,.35);transform:scale(1);transition:transform 1s ease}
+    #holistica-app .coach{font-size:14px; text-align:center; margin-top:6px;color:#334155}
+    /* Body scan steps */
+    #holistica-app .step{display:flex; align-items:center; gap:10px; margin:8px 0}
+    #holistica-app .step input[type=checkbox]{transform:scale(1.2)}
+    /* Timer */
+    #holistica-app .time{font-size:34px;font-weight:800}
+    /* Toast */
+    #holistica-app .toast{position:fixed; bottom:18px; right:18px; background:#0f172a; color:#fff; padding:10px 14px; border-radius:10px; box-shadow:0 8px 18px rgba(0,0,0,.2); opacity:0; transform:translateY(12px); transition:.25s}
+    #holistica-app .toast.show{opacity:1; transform:translateY(0)}
+  </style>
+
+  <div class="hero">
+    <h1>🧘 Psicología Holística: Mente, Cuerpo y Emociones</h1>
+    <p class="muted">Integramos tu bienestar emocional con tu salud física y tu entorno a través de técnicas de relajación, mindfulness y conciencia corporal para un equilibrio integral.</p>
+    <div class="grid cols-2">
+      <div class="kpi"><span class="bubble">Racha de autocuidado: <strong id="streak">0</strong> días</span></div>
+      <div style="text-align:right;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+        <button class="btn ghost" id="export">Copiar informe</button>
+        <button class="btn secondary" id="print">Imprimir / PDF</button>
+        <button class="btn" id="reset">Reiniciar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="checkin">Check-in Emocional</button>
+    <button class="tab" data-tab="breath">Respiración Guiada</button>
+    <button class="tab" data-tab="mind">Mindfulness</button>
+    <button class="tab" data-tab="body">Conciencia Corporal</button>
+    <button class="tab" data-tab="plan">Plan 7 días</button>
+  </div>
+
+  <!-- Check-in -->
+  <section class="card" id="tab-checkin">
+    <h3>💚 Check-in integral (hoy)</h3>
+    <p class="muted">Mueve los controles y obtén recomendaciones al instante.</p>
+    <div class="grid cols-2">
+      <div>
+        <label>Energía</label>
+        <input class="range" id="r-energia" type="range" min="0" max="10" value="6">
+        <div class="meter" aria-label="Energía"><div id="m-energia" style="width:60%"></div></div>
+      </div>
+      <div>
+        <label>Ánimo</label>
+        <input class="range" id="r-animo" type="range" min="0" max="10" value="6">
+        <div class="meter" aria-label="Ánimo"><div id="m-animo" style="width:60%"></div></div>
+      </div>
+      <div>
+        <label>Estrés</label>
+        <input class="range" id="r-estres" type="range" min="0" max="10" value="4">
+        <div class="meter" aria-label="Estrés"><div id="m-estres" style="width:40%;background:#ef4444"></div></div>
+      </div>
+      <div>
+        <label>Tensión corporal</label>
+        <input class="range" id="r-tension" type="range" min="0" max="10" value="4">
+        <div class="meter" aria-label="Tensión"><div id="m-tension" style="width:40%;background:#f59e0b"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4 style="margin:0 0 6px 0">🧾 Recomendación personalizada</h4>
+      <p id="rec" class="muted">Ajusta los controles para ver tu plan del día.</p>
+      <div id="tags" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px"></div>
+    </div>
+
+    <div style="display:flex; gap:8px; justify-content:flex-end">
+      <button class="btn secondary" id="saveCheckin">Guardar check-in</button>
+      <button class="btn" id="doQuick">Aplicar rutina de 5 min</button>
+    </div>
+  </section>
+
+  <!-- Respiración -->
+  <section class="card" id="tab-breath" style="display:none">
+    <h3>🌬️ Respiración Guiada</h3>
+    <p class="muted">Elige un ritmo y sigue la animación.</p>
+    <div class="grid cols-2">
+      <div>
+        <label>Protocolo</label>
+        <select id="breathMode" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:10px">
+          <option value="4-4-6">Relajación (4-4-6)</option>
+          <option value="4-4-4-4">Box breathing (4-4-4-4)</option>
+          <option value="7-11">Ansiedad (7-11)</option>
+        </select>
+        <div class="breath-wrap">
+          <div id="circle" class="circle" aria-label="Círculo de respiración"></div>
+        </div>
+        <div class="coach" id="coach">Inhala…</div>
+      </div>
+      <div>
+        <div class="bubble" style="margin-bottom:8px">
+          <strong>Cómo usar:</strong> Inhala cuando el círculo crece, <em>mantén</em> si se indica, y exhala cuando se hace pequeño. Practica 3–5 minutos.
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <button class="btn" id="startBreath">Iniciar</button>
+          <button class="btn secondary" id="stopBreath">Detener</button>
+          <button class="btn ghost" id="oneMinute">+1 min</button>
+        </div>
+        <div style="margin-top:8px" class="muted">Sesión: <span id="breathTime">0</span> min</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mindfulness -->
+  <section class="card" id="tab-mind" style="display:none">
+    <h3>🧠 Mindfulness cronometrado</h3>
+    <p class="muted">Respira, observa y vuelve. Puedes activar una campana suave al inicio y al final.</p>
+    <div class="grid cols-2">
+      <div>
+        <label>Duración</label>
+        <input type="range" id="mindDur" min="1" max="20" value="5" class="range">
+        <div class="muted"><span id="mindDurLabel">5</span> min</div>
+        <div class="time" id="timer">05:00</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px">
+          <button class="btn" id="startMind">Iniciar</button>
+          <button class="btn secondary" id="pauseMind">Pausar</button>
+          <button class="btn ghost" id="resetMind">Reiniciar</button>
+          <label style="display:flex; align-items:center; gap:6px">
+            <input type="checkbox" id="bell" checked> Campana
+          </label>
+        </div>
+      </div>
+      <div>
+        <details open>
+          <summary>Guía breve</summary>
+          <ul>
+            <li>Postura estable, hombros relajados.</li>
+            <li>Lleva atención a la respiración (nariz/pecho/abdomen).</li>
+            <li>Cuando notes distracción, etiqueta “pensar/sonido/sensación” y vuelve con amabilidad.</li>
+          </ul>
+        </details>
+        <div class="bubble" style="margin-top:8px">
+          Consejo: 5 minutos diarios son suficientes para notar cambios al cabo de 2–3 semanas.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Body awareness -->
+  <section class="card" id="tab-body" style="display:none">
+    <h3>🦶 Conciencia corporal (recorrido guiado)</h3>
+    <p class="muted">Marca cada zona al relajarlas 10–15 segundos con una respiración lenta.</p>
+    <div class="grid cols-2">
+      <div>
+        <div class="step"><input type="checkbox" data-zone="Pies y pantorrillas"> Pies y pantorrillas</div>
+        <div class="step"><input type="checkbox" data-zone="Muslos y caderas"> Muslos y caderas</div>
+        <div class="step"><input type="checkbox" data-zone="Abdomen y espalda baja"> Abdomen y espalda baja</div>
+        <div class="step"><input type="checkbox" data-zone="Pecho y espalda alta"> Pecho y espalda alta</div>
+        <div class="step"><input type="checkbox" data-zone="Hombros y brazos"> Hombros y brazos</div>
+        <div class="step"><input type="checkbox" data-zone="Cuello y mandíbula"> Cuello y mandíbula</div>
+        <div class="step"><input type="checkbox" data-zone="Rostro y frente"> Rostro y frente</div>
+        <div class="meter" style="margin-top:10px"><div id="scanProg" style="width:0%"></div></div>
+        <div class="muted">Progreso: <span id="scanPct">0</span>%</div>
+      </div>
+      <div>
+        <details open>
+          <summary>Técnica: tensión–relajación</summary>
+          <ol>
+            <li>Inhala 4s mientras tensas suavemente la zona.</li>
+            <li>Mantén 2–3s.</li>
+            <li>Exhala 6s y suelta por completo.</li>
+          </ol>
+        </details>
+        <div class="bubble" id="scanTip" style="margin-top:8px">
+          Consejo: observa diferencias entre antes y después (calor, hormigueo, liviandad).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plan -->
+  <section class="card" id="tab-plan" style="display:none">
+    <h3>🗓️ Plan de hábitos (7 días)</h3>
+    <p class="muted">Elige 3 hábitos base. Te sugerimos mantener consistencia, no perfección.</p>
+    <div class="grid cols-2">
+      <div>
+        <label><input type="checkbox" class="habit" value="Respiración 5 min"> Respiración 5 min</label><br>
+        <label><input type="checkbox" class="habit" value="Mindfulness 5–10 min"> Mindfulness 5–10 min</label><br>
+        <label><input type="checkbox" class="habit" value="Movimiento 20–30 min"> Movimiento 20–30 min</label><br>
+        <label><input type="checkbox" class="habit" value="Higiene del sueño"> Higiene del sueño</label><br>
+        <label><input type="checkbox" class="habit" value="Registro de gratitud"> Registro de gratitud</label><br>
+        <label><input type="checkbox" class="habit" value="Pausa consciente 3×/día"> Pausa consciente 3×/día</label>
+      </div>
+      <div>
+        <label>Hora sugerida</label>
+        <input id="planHour" type="time" value="07:30" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:10px">
+        <div class="bubble" style="margin-top:8px">Tip: vincula el hábito a una rutina existente (después de cepillarte, antes del almuerzo, etc.).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4 style="margin:0 0 8px 0">Calendario mini (7 días)</h4>
+      <div id="week" class="grid" style="grid-template-columns:repeat(7,1fr);gap:8px"></div>
+      <div class="muted" style="margin-top:6px">Marca los días que cumplas para mantener la racha.</div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast">Guardado</div>
+
+  <script>
+  (function(){
+    // ---------- Helpers ----------
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const toast = (msg)=>{ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); };
+
+    // ---------- Tabs ----------
+    const tabs = $("#tabs");
+    const sections = {
+      checkin: $("#tab-checkin"),
+      breath: $("#tab-breath"),
+      mind: $("#tab-mind"),
+      body: $("#tab-body"),
+      plan: $("#tab-plan")
+    };
+    tabs.addEventListener("click", (e)=>{
+      if(!e.target.matches(".tab")) return;
+      $$(".tab").forEach(b=>b.classList.remove("active"));
+      e.target.classList.add("active");
+      const t = e.target.dataset.tab;
+      Object.keys(sections).forEach(k=>sections[k].style.display = k===t ? "block":"none");
+    });
+
+    // ---------- Streak ----------
+    const LS = "holistica.data.v1";
+    const data = JSON.parse(localStorage.getItem(LS)||'{"streak":0,"last":"", "log":[]}');
+    const today = new Date().toISOString().slice(0,10);
+    const setStreak = (inc=false)=>{
+      if(inc){
+        if(data.last===today){ /* no change */ }
+        else{
+          const d1 = new Date(data.last||today); const d2 = new Date(today);
+          const diff = Math.round((d2-d1)/86400000);
+          data.streak = (diff===1 || data.streak===0)? data.streak+1 : 1;
+          data.last = today;
+          localStorage.setItem(LS, JSON.stringify(data));
+        }
+      }
+      $("#streak").textContent = data.streak||0;
+    };
+    setStreak(false);
+
+    // ---------- Check-in ----------
+    const sliders = [
+      {id:"r-energia", meter:"#m-energia", good:true},
+      {id:"r-animo", meter:"#m-animo", good:true},
+      {id:"r-estres", meter:"#m-estres", good:false},
+      {id:"r-tension", meter:"#m-tension", good:false},
+    ];
+    const tags = $("#tags");
+    function recompute(){
+      const vals = {};
+      sliders.forEach(s=>{
+        const v = +$("#"+s.id).value;
+        $(s.meter).style.width = (v*10)+"%";
+        vals[s.id]=v;
+      });
+      const energia=vals["r-energia"], animo=vals["r-animo"], estres=vals["r-estres"], tension=vals["r-tension"];
+      let rec=[], chips=[];
+      if(estres>=6 || tension>=6) {rec.push("👉 Prueba 5 min de respiración 4-4-6 y un recorrido corporal (3 zonas)."); chips.push("Respirar 4-4-6","Relajar 3 zonas");}
+      if(energia<=4) {rec.push("⚡ Camina 10–15 min o estiramiento suave antes de mindfulness."); chips.push("Caminar 15 min");}
+      if(animo<=4) {rec.push("💛 Registro de gratitud: 3 ítems hoy + contacto social breve."); chips.push("Gratitud x3","Mensaje a alguien");}
+      if(rec.length===0){rec.push("¡Vas bien! Mantén 5–10 min de mindfulness y 20–30 min de movimiento hoy."); chips.push("Mindfulness 10","Movimiento 20–30");}
+      $("#rec").textContent = rec.join(" ");
+      tags.innerHTML = chips.map(c=>`<span class="pill ok">${c}</span>`).join(" ");
+    }
+    sliders.forEach(s=> $("#"+s.id).addEventListener("input",recompute));
+    recompute();
+
+    $("#saveCheckin").addEventListener("click", ()=>{
+      const entry = {
+        date: today,
+        energia:+$("#r-energia").value,
+        animo:+$("#r-animo").value,
+        estres:+$("#r-estres").value,
+        tension:+$("#r-tension").value
+      };
+      data.log.push(entry);
+      localStorage.setItem(LS, JSON.stringify(data));
+      setStreak(true);
+      toast("Check-in guardado");
+    });
+
+    $("#doQuick").addEventListener("click", ()=>{
+      // Quick routine: 1 min breath + 2 zones scan + 2 min mindfulness
+      $$(".tab").forEach(t=>t.classList.remove("active"));
+      $(`.tab[data-tab="breath"]`).classList.add("active");
+      Object.keys(sections).forEach(k=>sections[k].style.display = k==="breath" ? "block":"none");
+      startBreathing();
+      setTimeout(()=>{ stopBreathing(); }, 60000);
+      toast("Rutina rápida iniciada");
+    });
+
+    // ---------- Breathing ----------
+    const circle = $("#circle"), coach = $("#coach");
+    const breathMode = $("#breathMode");
+    const startBreath = $("#startBreath"), stopBreath = $("#stopBreath"), oneMinute=$("#oneMinute");
+    let breathTimer=null, breathClock=null, breathMinutes=0, phaseIdx=0, phases=[], labels=[];
+    function parseMode(){
+      const m = breathMode.value;
+      if(m==="4-4-6"){ phases=[4,4,6]; labels=["Inhala","Mantén","Exhala"]; }
+      else if(m==="4-4-4-4"){ phases=[4,4,4,4]; labels=["Inhala","Mantén","Exhala","Mantén"]; }
+      else { phases=[7,11]; labels=["Inhala","Exhala"]; }
+    }
+    parseMode();
+    let running=false;
+    function tickPhase(){
+      const label = labels[phaseIdx%labels.length];
+      coach.textContent = label + "…";
+      if(label.startsWith("Inhala")) circle.style.transform="scale(1.25)";
+      else if(label.startsWith("Exhala")) circle.style.transform="scale(0.85)";
+      else circle.style.transform="scale(1.05)";
+      clearTimeout(breathTimer);
+      breathTimer = setTimeout(()=>{ phaseIdx++; tickPhase(); }, phases[phaseIdx%phases.length]*1000);
+    }
+    function startBreathing(){
+      if(running) return;
+      running=true; parseMode(); phaseIdx=0; tickPhase();
+      breathClock = setInterval(()=>{ breathMinutes++; $("#breathTime").textContent = Math.floor(breathMinutes/60); }, 1000);
+    }
+    function stopBreathing(){
+      running=false; clearTimeout(breathTimer); clearInterval(breathClock);
+      circle.style.transform="scale(1)"; coach.textContent="Listo";
+      if(breathMinutes>=60){ setStreak(true); toast("Sesión de respiración registrada"); }
+      breathMinutes=0; $("#breathTime").textContent="0";
+    }
+    startBreath.addEventListener("click", startBreathing);
+    stopBreath.addEventListener("click", stopBreathing);
+    oneMinute.addEventListener("click", ()=>{ setTimeout(()=>stopBreathing(), 60000); toast("+1 minuto"); });
+    breathMode.addEventListener("change", ()=>{ if(running){ parseMode(); } });
+
+    // ---------- Mindfulness Timer ----------
+    const bell = new (window.AudioContext||window.webkitAudioContext)();
+    function ring(){
+      const o = bell.createOscillator(); const g = bell.createGain();
+      o.type="sine"; o.frequency.value=660;
+      o.connect(g); g.connect(bell.destination);
+      g.gain.setValueAtTime(0.0001, bell.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.2, bell.currentTime+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, bell.currentTime+0.8);
+      o.start(); o.stop(bell.currentTime+0.85);
+    }
+    const mindDur=$("#mindDur"), mindDurLabel=$("#mindDurLabel"), timer=$("#timer");
+    let totalSec=5*60, left=totalSec, tInt=null, paused=true;
+    function fmt(s){ const m=String(Math.floor(s/60)).padStart(2,"0"); const ss=String(s%60).padStart(2,"0"); return `${m}:${ss}`; }
+    function setDur(min){ totalSec=min*60; left=totalSec; timer.textContent=fmt(left); }
+    mindDur.addEventListener("input",()=>{ mindDurLabel.textContent=mindDur.value; setDur(+mindDur.value); });
+    $("#startMind").addEventListener("click",()=>{
+      if($("#bell").checked) try{ ring(); }catch(e){}
+      if(tInt) clearInterval(tInt);
+      paused=false;
+      tInt=setInterval(()=>{
+        if(paused) return;
+        left--; timer.textContent=fmt(left);
+        if(left<=0){ clearInterval(tInt); if($("#bell").checked) try{ ring(); }catch(e){}; setStreak(true); toast("Sesión mindfulness registrada"); left=0; }
+      },1000);
+    });
+    $("#pauseMind").addEventListener("click",()=>{ paused=!paused; toast(paused?"Pausado":"Reanudado"); });
+    $("#resetMind").addEventListener("click",()=>{ clearInterval(tInt); setDur(+mindDur.value); paused=true; });
+
+    // ---------- Body Scan ----------
+    const zones = $$("input[type=checkbox][data-zone]");
+    function updateScan(){
+      const done = zones.filter(z=>z.checked).length;
+      const pct = Math.round(done/zones.length*100);
+      $("#scanProg").style.width=pct+"%";
+      $("#scanPct").textContent=pct;
+      if(done===zones.length){ setStreak(true); toast("Recorrido corporal completado"); }
+      const next = zones.find(z=>!z.checked);
+      $("#scanTip").innerHTML = next ? `Siguiente zona sugerida: <strong>${next.dataset.zone}</strong>` : "¡Excelente! Observa tu respiración 60 s más.";
+    }
+    zones.forEach(z=>z.addEventListener("change",updateScan));
+
+    // ---------- Plan 7 días ----------
+    const week=$("#week");
+    const days=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+    days.forEach((d,i)=>{
+      const el=document.createElement("button");
+      el.className="btn secondary";
+      el.style.padding="10px 8px"; el.style.fontWeight="700"; el.style.borderRadius="12px";
+      el.textContent=d; el.dataset.on="0";
+      el.addEventListener("click",(e)=>{
+        e.preventDefault();
+        const on=el.dataset.on==="1"; el.dataset.on= on?"0":"1";
+        el.style.background = on?"#f1f5f9":"#22c55e"; el.style.color = on?"#0f172a":"#fff";
+        if(!on) setStreak(true);
+      });
+      week.appendChild(el);
+    });
+
+    // ---------- Export / Print / Reset ----------
+    $("#export").addEventListener("click", ()=>{
+      const s = (id)=>+$(id).value;
+      const text = [
+        "INFORME – Psicología Holística (auto-registro)",
+        new Date().toLocaleString(),
+        "",
+        `Check-in: Energía ${s("#r-energia")}/10, Ánimo ${s("#r-animo")}/10, Estrés ${s("#r-estres")}/10, Tensión ${s("#r-tension")}/10`,
+        `Plan 7 días (hora sugerida ${$("#planHour").value})`,
+        `Hábitos elegidos: ${$$(".habit:checked").map(h=>h.value).join(", ") || "—"}`,
+        `Racha actual: ${$("#streak").textContent} días`,
+        "Nota: esta herramienta es educativa y no reemplaza evaluación clínica."
+      ].join("\n");
+      navigator.clipboard.writeText(text).then(()=>toast("Informe copiado"));
+    });
+    $("#print").addEventListener("click",()=>window.print());
+    $("#reset").addEventListener("click",()=>{
+      localStorage.removeItem(LS); location.reload();
+    });
+
+    // ---------- Habits store ----------
+    $$(".habit").forEach(h=>{
+      h.addEventListener("change", ()=>{
+        const sel = $$(".habit:checked").length;
+        if(sel>3){ h.checked=false; toast("Máximo 3 hábitos a la vez"); }
+      });
+    });
+  })();
+  </script>
+</div>
