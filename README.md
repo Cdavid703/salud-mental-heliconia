@@ -1,2 +1,4 @@
-# salud-mental-heliconia
-Sitio web estático desarrollado como proyecto informativo sobre salud mental en Heliconia. Publicado mediante GitHub Pages para facilitar el acceso público.
+#  Salud Mental Heliconia
+
+Proyecto web informativo sobre salud mental en Heliconia.  
+👉 [Haz clic aquí para ver el sitio](https://Cdavid703.github.io/salud-mental-heliconia)
