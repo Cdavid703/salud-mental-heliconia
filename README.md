@@ -1,40 +1,45 @@
 # 🌿 Salud Mental Heliconia
 
-Este proyecto es un **sitio web informativo** sobre salud mental y bienestar emocional para la comunidad de Heliconia.  
-El contenido principal está desarrollado en [Google Sites](https://sites.google.com/view/tu-bienestar-en-heliconia/inicio), y se publica a través de **GitHub Pages** para ofrecer un enlace corto, limpio y accesible.
+Este proyecto es un **sitio web informativo e interactivo** enfocado en salud mental y bienestar emocional para la comunidad de Heliconia.  
+Incluye un **test psicológico orientativo**, recursos educativos y redirección a una página principal desarrollada en Google Sites.
 
-👉 **Enlace de acceso directo:** [https://Cdavid703.github.io/salud-mental-heliconia](https://Cdavid703.github.io/salud-mental-heliconia)
+👉 **Enlace principal:** [https://Cdavid703.github.io/salud-mental-heliconia](https://Cdavid703.github.io/salud-mental-heliconia)  
+👉 **Sitio original en Google Sites:** [https://sites.google.com/view/tu-bienestar-en-heliconia/inicio](https://sites.google.com/view/tu-bienestar-en-heliconia/inicio)
 
 ---
 
 ## 🧠 Descripción
 
-**Salud Mental Heliconia** busca brindar información confiable y accesible relacionada con el bienestar emocional, recursos de apoyo y orientación para la comunidad.  
-El sitio incluye enlaces a servicios, herramientas digitales, formularios, material informativo y recursos interactivos para fomentar el autocuidado y la salud mental.
+El objetivo de **Salud Mental Heliconia** es facilitar el acceso a información confiable y herramientas prácticas sobre salud mental y autocuidado.  
+El proyecto combina:
+- Un **test interactivo en línea** para explorar dimensiones emocionales, autoestima, resiliencia y habilidades sociales.  
+- Contenido psicoeducativo e interpretaciones personalizadas.  
+- Un acceso centralizado a la página oficial mediante GitHub Pages.
 
-Este repositorio funciona como **página de presentación**:  
-- Redirige automáticamente a la página principal alojada en Google Sites.  
-- Centraliza la información del proyecto para presentarlo de forma profesional.  
-- Permite mantener un enlace estable y personalizable a través de GitHub Pages.
+Este enfoque permite a cualquier usuario acceder fácilmente desde cualquier dispositivo, sin necesidad de instalaciones adicionales.
 
 ---
 
 ## 🛠️ Tecnologías utilizadas
 
-- 🌐 **Google Sites** — Plataforma principal de desarrollo y publicación de la página.  
-- 🧾 **HTML embebido** — Para insertar bloques personalizados y contenido dinámico.  
-- 🪄 **iFrames** — Integración de mapas, formularios y otros elementos interactivos.  
-- 📎 **Integraciones de Google** — Formularios, Drive, YouTube, Maps, entre otros.  
-- 🚀 **GitHub Pages** — Para publicar el sitio con un dominio corto y profesional.
+- 🌐 **HTML** → estructura y contenido de la interfaz.  
+- 🎨 **CSS** → diseño visual, estilos y animaciones.  
+- ⚡ **JavaScript** → lógica del test, cálculo de resultados e interactividad.  
+- 🧾 **Google Sites** → contenido principal informativo y recursos.  
+- 🚀 **GitHub Pages** → publicación gratuita del proyecto en la web.  
+- 🪄 **Embeds / iFrames** → integración de formularios, mapas y otros elementos interactivos.
 
 ---
 
 ## 🚀 Acceso al proyecto
 
-- 📄 **Página principal:** [https://sites.google.com/view/tu-bienestar-en-heliconia/inicio](https://sites.google.com/view/tu-bienestar-en-heliconia/inicio)  
-- 🌐 **Enlace público (GitHub Pages):** [https://Cdavid703.github.io/salud-mental-heliconia](https://Cdavid703.github.io/salud-mental-heliconia)
+- 📄 **Página oficial (Google Sites):**  
+  [https://sites.google.com/view/tu-bienestar-en-heliconia/inicio](https://sites.google.com/view/tu-bienestar-en-heliconia/inicio)
+
+- 🌐 **Versión publicada en GitHub Pages:**  
+  [https://Cdavid703.github.io/salud-mental-heliconia](https://Cdavid703.github.io/salud-mental-heliconia)
 
 ---
 
-## 📌 Estructura del repositorio
+## 📂 Estructura del repositorio
 
