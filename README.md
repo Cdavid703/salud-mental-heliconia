@@ -1,3 +1,5 @@
+Actualizar README con información ampliada
+
 # 🌿 Salud Mental Heliconia
 
 Este proyecto es un **sitio web informativo e interactivo** enfocado en salud mental y bienestar emocional para la comunidad de Heliconia.  
