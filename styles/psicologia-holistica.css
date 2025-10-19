@@ -1,1 +1,41 @@
+#holistica-app *{box-sizing:border-box}
+#holistica-app .hero{background:linear-gradient(135deg,#e0f2fe 0,#fef9c3 100%);border-radius:18px;padding:22px 20px;margin:14px 0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+#holistica-app h1{margin:0 0 6px 0;font-size:28px}
+#holistica-app .muted{color:#475569}
+#holistica-app .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+#holistica-app .tab{border:1px solid #e2e8f0;border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer;font-weight:600}
+#holistica-app .tab.active{background:#2563eb;color:#fff;border-color:#2563eb}
+#holistica-app .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+#holistica-app .grid{display:grid;gap:12px}
+@media(min-width:860px){#holistica-app .cols-2{grid-template-columns:1fr 1fr}}
+#holistica-app .btn{background:#2563eb;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+#holistica-app .btn.secondary{background:#f1f5f9;color:#0f172a}
+#holistica-app .btn.ghost{background:transparent;border:1px solid #cbd5e1;color:#0f172a}
+#holistica-app .range{width:100%}
+#holistica-app .kpi{display:flex;align-items:center;gap:10px}
+#holistica-app .bubble{background:#f1f5f9;border-radius:12px;padding:8px 10px}
+#holistica-app .meter{height:10px;background:#eef2ff;border-radius:999px;overflow:hidden}
+#holistica-app .meter>div{height:10px;background:#22c55e}
+#holistica-app .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}
+#holistica-app .pill.ok{background:#dcfce7;color:#166534}
+#holistica-app .pill.mid{background:#fef3c7;color:#92400e}
+#holistica-app .pill.low{background:#fee2e2;color:#991b1b}
+#holistica-app details{background:#f8fafc;border:1px dashed #e2e8f0;border-radius:12px;padding:8px 12px}
+#holistica-app summary{cursor:pointer;font-weight:700}
+
+/* Breathing circle */
+#holistica-app .breath-wrap{display:flex;justify-content:center;align-items:center;height:220px}
+#holistica-app .circle{width:140px;height:140px;border-radius:999px;background:radial-gradient(circle at 30% 30%, #a7f3d0, #34d399);box-shadow:0 10px 30px rgba(16,185,129,.35);transform:scale(1);transition:transform 1s ease}
+#holistica-app .coach{font-size:14px; text-align:center; margin-top:6px;color:#334155}
+
+/* Body scan steps */
+#holistica-app .step{display:flex; align-items:center; gap:10px; margin:8px 0}
+#holistica-app .step input[type=checkbox]{transform:scale(1.2)}
+
+/* Timer */
+#holistica-app .time{font-size:34px;font-weight:800}
+
+/* Toast */
+#holistica-app .toast{position:fixed; bottom:18px; right:18px; background:#0f172a; color:#fff; padding:10px 14px; border-radius:10px; box-shadow:0 8px 18px rgba(0,0,0,.2); opacity:0; transform:translateY(12px); transition:.25s}
+#holistica-app .toast.show{opacity:1; transform:translateY(0)}
 
